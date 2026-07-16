@@ -15,7 +15,7 @@ class UserLogin(BaseModel):
 
 class Token(BaseModel):
     access_token: str
-    token_type: str
+    token_type: str = "bearer"
 
 
 class TokenData(BaseModel):
@@ -31,3 +31,9 @@ class UserResponse(BaseModel):
     phone: str | None
     is_active: bool
     is_verified: bool
+
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: UserResponse

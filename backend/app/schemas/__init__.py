@@ -1,4 +1,5 @@
 from app.schemas.auth import (
+    LoginResponse,
     Token,
     TokenData,
     UserLogin,
@@ -12,4 +13,5 @@ __all__ = [
     "UserResponse",
     "Token",
     "TokenData",
+    "LoginResponse",
 ]

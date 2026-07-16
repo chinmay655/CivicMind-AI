@@ -2,16 +2,15 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.api.v1.endpoints.auth import router as auth_router
 from app.core.config import settings
 from app.core.logging import configure_logging
-from app.db.init_db import init_database
 
 configure_logging()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_database()
     yield
 
 
@@ -20,6 +19,8 @@ app = FastAPI(
     version=settings.APP_VERSION,
     lifespan=lifespan,
 )
+
+app.include_router(auth_router)
 
 
 @app.get("/")

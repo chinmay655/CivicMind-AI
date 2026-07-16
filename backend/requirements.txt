@@ -20,3 +20,9 @@ email-validator
 httpx
 
 pytest
+
+bcrypt==4.0.1
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
+email-validator
