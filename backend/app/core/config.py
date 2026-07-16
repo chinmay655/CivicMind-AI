@@ -33,3 +33,4 @@ def get_settings():
 
 
 settings = get_settings()
+print("DATABASE:", settings.DATABASE_URL)

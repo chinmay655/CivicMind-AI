@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import get_current_user
 from app.db.session import get_db
+from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.schemas.auth import (
     LoginResponse,
@@ -16,27 +18,6 @@ router = APIRouter(
     tags=["Authentication"],
 )
 
-
-'''@router.post(
-    "/register",
-    response_model=UserResponse,
-    status_code=201,
-)
-async def register(
-    user: UserRegister,
-    db: AsyncSession = Depends(get_db),
-):
-    repository = UserRepository(db)
-    service = AuthService(repository)
-
-    try:
-        return await service.register(user)
-
-    except ValueError as e:
-        raise HTTPException(
-            status_code=400,
-            detail=str(e),
-        )'''
 
 @router.post(
     "/register",
@@ -53,8 +34,7 @@ async def register(
     try:
         return await service.register(user)
 
-    except Exception as e:
-        print("REGISTER ERROR:", repr(e))
+    except ValueError as e:
         raise HTTPException(
             status_code=400,
             detail=str(e),
@@ -83,3 +63,13 @@ async def login(
             status_code=401,
             detail=str(e),
         )
+
+
+@router.get(
+    "/me",
+    response_model=UserResponse,
+)
+async def me(
+    current_user: User = Depends(get_current_user),
+):
+    return current_user
