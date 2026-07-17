@@ -59,3 +59,8 @@ class User(BaseModel):
         "Department",
         back_populates="users",
     )
+
+    complaints = relationship(
+        "Complaint",
+        back_populates="citizen",
+    )

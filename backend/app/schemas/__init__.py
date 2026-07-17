@@ -7,11 +7,20 @@ from app.schemas.auth import (
     UserResponse,
 )
 
+from app.schemas.complaint import (
+    ComplaintCreate,
+    ComplaintResponse,
+    ComplaintUpdate,
+)
+
 __all__ = [
-    "UserRegister",
-    "UserLogin",
-    "UserResponse",
+    "LoginResponse",
     "Token",
     "TokenData",
-    "LoginResponse",
+    "UserLogin",
+    "UserRegister",
+    "UserResponse",
+    "ComplaintCreate",
+    "ComplaintResponse",
+    "ComplaintUpdate",
 ]
