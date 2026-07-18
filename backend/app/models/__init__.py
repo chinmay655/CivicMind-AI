@@ -3,6 +3,7 @@ from app.models.department import Department
 from app.models.permission import Permission
 from app.models.role import Role
 from app.models.user import User
+from .complaint_image import ComplaintImage
 
 __all__ = [
     "Complaint",
@@ -10,4 +11,5 @@ __all__ = [
     "Permission",
     "Role",
     "User",
+    "ComplaintImage"
 ]

@@ -1,6 +1,5 @@
 from datetime import datetime
 from enum import Enum
-
 from pydantic import BaseModel, ConfigDict
 
 
@@ -12,10 +11,10 @@ class ComplaintStatus(str, Enum):
 
 
 class ComplaintPriority(str, Enum):
-    LOW = "Low"
-    MEDIUM = "Medium"
-    HIGH = "High"
-    CRITICAL = "Critical"
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
 
 
 class ComplaintCreate(BaseModel):

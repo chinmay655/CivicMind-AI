@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy import Float, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from sqlalchemy.orm import relationship
 from app.models.base_model import BaseModel
 
 
@@ -50,4 +50,9 @@ class Complaint(BaseModel):
     citizen = relationship(
         "User",
         back_populates="complaints",
+    )
+    images = relationship(
+        "ComplaintImage",
+        back_populates="complaint",
+        cascade="all, delete-orphan"
     )

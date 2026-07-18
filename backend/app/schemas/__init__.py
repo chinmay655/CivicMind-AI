@@ -1,3 +1,4 @@
+from .complaint_image import ComplaintImageResponse
 from app.schemas.auth import (
     LoginResponse,
     Token,

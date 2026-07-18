@@ -1,25 +1,29 @@
 from fastapi import FastAPI
-from fastapi.openapi.utils import get_openapi
+from fastapi.staticfiles import StaticFiles
 
 from app.api.v1.endpoints.auth import router as auth_router
 from app.api.v1.endpoints.complaints import router as complaint_router
+from app.api.v1.endpoints.complaint_images import router as complaint_image_router
 
 app = FastAPI(
     title="CivicMind AI",
     version="1.0.0",
 )
 
+# Serve uploaded images
+app.mount(
+    "/uploads",
+    StaticFiles(directory="uploads"),
+    name="uploads",
+)
 
 @app.get("/")
 async def root():
-    return {
-        "message": "Welcome to CivicMind AI"
-    }
-
+    return {"message": "Welcome to CivicMind AI"}
 
 app.include_router(auth_router)
 app.include_router(complaint_router)
-
+app.include_router(complaint_image_router)
 
 '''def custom_openapi():
     if app.openapi_schema:
