@@ -36,3 +36,34 @@ async def upload_complaint_image(
         complaint_id=complaint_id,
         image_url=image_path,
     )
+'''@router.get(
+    "/{complaint_id}/images")
+
+async def get_complaint_images(
+    complaint_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    repository = ComplaintImageRepository(db)
+    service = ComplaintImageService(repository)
+
+    return await service.get_images(complaint_id)'''
+
+@router.get("/{complaint_id}/images", response_model=list[ComplaintImageResponse])
+async def get_complaint_images(
+    complaint_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    repository = ComplaintImageRepository(db)
+    service = ComplaintImageService(repository)
+
+    return await service.get_images(complaint_id)
+
+@router.delete("/images/{image_id}")
+async def delete_image(
+    image_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    repository = ComplaintImageRepository(db)
+    service = ComplaintImageService(repository)
+
+    return await service.delete_image(image_id)

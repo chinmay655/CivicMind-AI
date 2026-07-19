@@ -13,7 +13,7 @@ config = context.config
 
 config.set_main_option(
     "sqlalchemy.url",
-    settings.DATABASE_URL.replace("+asyncpg", ""),
+    settings.DATABASE_URL.replace("+asyncpg", "").replace("%", "%%")
 )
 
 if config.config_file_name is not None:

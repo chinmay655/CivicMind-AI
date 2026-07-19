@@ -20,11 +20,18 @@ class ComplaintImageRepository:
 
         return image
 
-    async def get_images(self, complaint_id: int):
+    async def get_images_by_complaint(self, complaint_id: int):
         result = await self.db.execute(
             select(ComplaintImage).where(
                 ComplaintImage.complaint_id == complaint_id
             )
         )
-
         return result.scalars().all()
+    
+    async def get_by_id(self, image_id: int):
+        return await self.db.get(ComplaintImage, image_id)
+
+
+    async def delete(self, image: ComplaintImage):
+        await self.db.delete(image)
+        await self.db.commit()
