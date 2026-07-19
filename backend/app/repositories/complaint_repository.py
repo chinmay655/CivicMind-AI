@@ -58,3 +58,12 @@ class ComplaintRepository:
     async def delete(self, db_complaint: Complaint) -> None:
         await self.db.delete(db_complaint)
         await self.db.commit()
+
+    async def update(self, complaint, complaint_data):
+        for key, value in complaint_data.items():
+            setattr(complaint, key, value)
+
+        await self.db.commit()
+        await self.db.refresh(complaint)
+
+        return complaint

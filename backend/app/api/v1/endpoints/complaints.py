@@ -7,6 +7,7 @@ from app.models.user import User
 from app.repositories.complaint_repository import ComplaintRepository
 from app.schemas.complaint import (
     ComplaintCreate,
+    ComplaintUpdate,
     ComplaintResponse,
 )
 from app.services.complaint_service import ComplaintService
@@ -70,3 +71,17 @@ async def get_complaint(
         )
 
     return complaint
+
+@router.put("/{complaint_id}", response_model=ComplaintResponse)
+async def update_complaint(
+    complaint_id: int,
+    complaint_update: ComplaintUpdate,
+    db: AsyncSession = Depends(get_db),
+):
+    repository = ComplaintRepository(db)
+    service = ComplaintService(repository)
+
+    return await service.update_complaint(
+        complaint_id,
+        complaint_update,
+    )

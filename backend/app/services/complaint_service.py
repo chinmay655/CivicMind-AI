@@ -41,3 +41,13 @@ class ComplaintService:
         db_complaint: Complaint,
     ) -> None:
         await self.repository.delete(db_complaint)
+
+    async def update_complaint(self, complaint_id: int, complaint_update):
+        complaint = await self.repository.get_by_id(complaint_id)
+
+        if not complaint:
+            raise HTTPException(status_code=404, detail="Complaint not found")
+
+        update_data = complaint_update.model_dump(exclude_unset=True)
+
+        return await self.repository.update(complaint, update_data)

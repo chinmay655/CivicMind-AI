@@ -1,29 +1,28 @@
 from datetime import datetime
-from enum import Enum
+from typing import Optional
+
 from pydantic import BaseModel, ConfigDict
 
-
-class ComplaintStatus(str, Enum):
-    PENDING = "Pending"
-    IN_PROGRESS = "In Progress"
-    RESOLVED = "Resolved"
-    REJECTED = "Rejected"
-
-
-class ComplaintPriority(str, Enum):
-    LOW = "LOW"
-    MEDIUM = "MEDIUM"
-    HIGH = "HIGH"
-    CRITICAL = "CRITICAL"
+from app.models.complaint import ComplaintPriority, ComplaintStatus
 
 
 class ComplaintCreate(BaseModel):
     title: str
     description: str
-    priority: ComplaintPriority = ComplaintPriority.MEDIUM
     latitude: float
     longitude: float
     address: str
+    priority: ComplaintPriority = ComplaintPriority.MEDIUM
+
+
+class ComplaintUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    address: Optional[str] = None
+    status: Optional[ComplaintStatus] = None
+    priority: Optional[ComplaintPriority] = None
 
 
 class ComplaintResponse(BaseModel):
@@ -40,11 +39,3 @@ class ComplaintResponse(BaseModel):
     citizen_id: int
     created_at: datetime
     updated_at: datetime
-
-
-class ComplaintUpdate(BaseModel):
-    title: str | None = None
-    description: str | None = None
-    status: ComplaintStatus | None = None
-    priority: ComplaintPriority | None = None
-    address: str | None = None
