@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from app.core.permissions import get_current_admin
 from app.api.dependencies import get_current_user
 from app.db.session import get_db
 from app.models.user import User
@@ -73,3 +73,12 @@ async def me(
     current_user: User = Depends(get_current_user),
 ):
     return current_user
+
+@router.get("/admin-test")
+async def admin_test(
+    current_admin: User = Depends(get_current_admin),
+):
+    return {
+        "message": "Welcome Admin",
+        "user": current_admin.email,
+    }

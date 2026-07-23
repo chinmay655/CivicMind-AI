@@ -37,5 +37,13 @@ class ComplaintResponse(BaseModel):
     longitude: float
     address: str
     citizen_id: int
+
+    # AI Analysis Fields
+    ai_detected_issue: Optional[str] = None
+    ai_confidence: Optional[float] = None
+    ai_estimated_cost: Optional[int] = None
+    ai_recommended_department: Optional[str] = None
+    ai_analysis_status: Optional[str] = None
+
     created_at: datetime
     updated_at: datetime

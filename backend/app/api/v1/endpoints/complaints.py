@@ -11,14 +11,15 @@ from app.schemas.complaint import (
     ComplaintResponse,
 )
 from app.services.complaint_service import ComplaintService
-
+from app.repositories.complaint_history_repository import ComplaintHistoryRepository
+from app.services.complaint_history_service import ComplaintHistoryService
 router = APIRouter(
     prefix="/complaints",
     tags=["Complaints"],
 )
 
 
-@router.post(
+'''@router.post(
     "/",
     response_model=ComplaintResponse,
     status_code=status.HTTP_201_CREATED,
@@ -35,8 +36,41 @@ async def create_complaint(
     return await service.create_complaint(
         complaint=complaint,
         citizen_id=current_user.id,
+    )'''
+
+@router.post(
+    "/",
+    response_model=ComplaintResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_complaint(
+    complaint: ComplaintCreate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    complaint_repository = ComplaintRepository(db)
+    complaint_service = ComplaintService(complaint_repository)
+
+    history_repository = ComplaintHistoryRepository(db)
+    history_service = ComplaintHistoryService(history_repository)
+
+    # Create Complaint
+    new_complaint = await complaint_service.create_complaint(
+        complaint=complaint,
+        citizen_id=current_user.id,
     )
 
+    # Record Timeline
+    await history_service.record_history(
+        complaint_id=new_complaint.id,
+        performed_by=current_user.id,
+        action="Complaint Created",
+        old_status=None,
+        new_status=new_complaint.status.value,
+        remarks="Complaint submitted successfully.",
+    )
+
+    return new_complaint
 
 @router.get(
     "/",

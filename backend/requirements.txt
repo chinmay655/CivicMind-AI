@@ -26,3 +26,10 @@ passlib[bcrypt]
 python-jose[cryptography]
 python-multipart
 email-validator
+
+ultralytics
+opencv-python
+numpy
+Pillow
+torch
+torchvision

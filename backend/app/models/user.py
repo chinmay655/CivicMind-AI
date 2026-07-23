@@ -1,6 +1,8 @@
 from sqlalchemy import Boolean, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from enum import Enum
 
+from sqlalchemy import Enum as SqlEnum
 from app.models.base_model import BaseModel
 
 
@@ -62,5 +64,12 @@ class User(BaseModel):
 
     complaints = relationship(
         "Complaint",
+        foreign_keys="Complaint.citizen_id",
         back_populates="citizen",
+    )
+
+    notifications = relationship(
+        "Notification",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )

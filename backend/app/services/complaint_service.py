@@ -1,7 +1,7 @@
 from app.models.complaint import Complaint
 from app.repositories.complaint_repository import ComplaintRepository
 from app.schemas.complaint import ComplaintCreate, ComplaintUpdate
-
+from fastapi import HTTPException
 
 class ComplaintService:
     def __init__(self, repository: ComplaintRepository):
@@ -51,3 +51,21 @@ class ComplaintService:
         update_data = complaint_update.model_dump(exclude_unset=True)
 
         return await self.repository.update(complaint, update_data)
+    
+    async def update_ai_analysis(
+        self,
+        complaint_id: int,
+        analysis: dict,
+    ):
+        complaint = await self.repository.get_by_id(complaint_id)
+
+        if complaint is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Complaint not found",
+            )
+
+        return await self.repository.update_ai_analysis(
+            complaint,
+            analysis,
+        )

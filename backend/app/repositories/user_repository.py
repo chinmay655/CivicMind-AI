@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
 from app.models.user import User
-
+from sqlalchemy.orm import selectinload
 
 class UserRepository:
 
@@ -11,7 +11,9 @@ class UserRepository:
 
     async def get_by_email(self, email: str) -> User | None:
         result = await self.db.execute(
-            select(User).where(User.email == email)
+            select(User)
+            .options(selectinload(User.role))
+            .where(User.email == email)
         )
         return result.scalar_one_or_none()
 
