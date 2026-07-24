@@ -3,10 +3,10 @@ import HeroImage from "./HeroImage";
 import DashboardPreview from "../../dashboard-preview/DashboardPreview";
 function Hero() {
   return (
-    <section className="bg-slate-50">
-      <div className="mx-auto max-w-7xl px-8 py-24">
+    <section className="min-h-[90vh] bg-slate-50 flex items-center">
+      <div className="mx-auto max-w-[1440px] px-8">
 
-        <div className="grid items-center gap-16 lg:grid-cols-[42%_58%]">
+        <div className="grid items-center gap-16 lg:grid-cols-[45%_55%]">
 
           <HeroContent />
 
