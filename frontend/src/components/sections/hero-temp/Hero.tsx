@@ -1,6 +1,6 @@
 import HeroContent from "./HeroContent";
 import HeroImage from "./HeroImage";
-
+import DashboardPreview from "../../dashboard-preview/DashboardPreview";
 function Hero() {
   return (
     <section className="bg-slate-50">
@@ -10,7 +10,7 @@ function Hero() {
 
           <HeroContent />
 
-          <HeroImage />
+          <DashboardPreview />
 
         </div>
 
