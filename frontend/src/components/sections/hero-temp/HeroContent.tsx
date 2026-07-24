@@ -12,7 +12,7 @@ function HeroContent() {
 
       <h1 className="mt-8 text-5xl font-extrabold leading-tight tracking-tight text-slate-900 lg:text-7xl">
         Build Smarter Cities
-  <     br />
+      <br/>
         with
       <span className="block text-blue-600">
         CivicMind AI
@@ -24,7 +24,11 @@ function HeroContent() {
         prioritize repairs automatically, and enable municipalities
         to respond faster through one intelligent platform.
       </p>
+      <div className="mt-8 flex items-center gap-2 text-sm text-slate-600">
+        <div className="h-2 w-2 rounded-full bg-green-500" />
 
+        Trusted by 120+ Municipal Wards
+      </div>
       <HeroButtons />
 
       <HeroStats />

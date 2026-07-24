@@ -1,4 +1,5 @@
 import KpiCard from "./KpiCard";
+import ActivityItem from "./ActivityItem";
 import ChartCard from "./ChartCard";
 import {
   FileText,
@@ -7,7 +8,12 @@ import {
   AlertTriangle,
   Activity,
 } from "lucide-react";
-
+import {
+  MapPin,
+  Trash2,
+  Lightbulb,
+  Droplets,
+} from "lucide-react";
 const DashboardPreview = () => {
   return (
     <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
@@ -65,6 +71,38 @@ const DashboardPreview = () => {
             icon={<AlertTriangle size={20} />}
             trendType="neutral"
         />
+
+        <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">
+                Recent Activity
+            </h3>
+
+            <div className="space-y-3">
+                <ActivityItem
+                    icon={<MapPin size={18} />}
+                    title="Pothole reported"
+                    time="2 min ago"
+                />
+
+                <ActivityItem
+                    icon={<Trash2 size={18} />}
+                    title="Garbage complaint verified"
+                    time="8 min ago"
+                />  
+
+                <ActivityItem
+                    icon={<Lightbulb size={18} />}
+                    title="Streetlight repaired"
+                    time="15 min ago"
+                />
+
+                <ActivityItem
+                    icon={<Droplets size={18} />}
+                    title="Water leakage detected"
+                    time="22 min ago"
+                />
+            </div>
+        </div>
     </div>
     </div>
   );
