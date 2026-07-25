@@ -1,15 +1,28 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Playground from "../pages/Playground";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Dashboard from "../pages/Dashboard";
+import ReportIssue from "../pages/ReportIssue";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
+        <Route
+          path="/report"
+          element={<ReportIssue />}
+        />
       </Routes>
     </BrowserRouter>
   );

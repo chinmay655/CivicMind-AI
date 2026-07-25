@@ -32,6 +32,7 @@ class UserRepository:
             print(e)
             print("=" * 60)
             raise
+        
     '''async def create(self, user: User) -> User:
         self.db.add(user)
         await self.db.commit()

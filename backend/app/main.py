@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.api.v1.endpoints.dashboard import router as dashboard_router
 from app.api.v1.endpoints.auth import router as auth_router
@@ -22,6 +23,15 @@ app = FastAPI(
     version="1.0.0",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Serve uploaded images
 app.mount(
     "/uploads",
@@ -33,46 +43,25 @@ app.mount(
 async def root():
     return {"message": "Welcome to CivicMind AI"}
 
-app.include_router(auth_router)
-app.include_router(complaint_router)
-app.include_router(complaint_image_router)
-app.include_router(dashboard_router)
-app.include_router(assignment_router)
-app.include_router(department_router)
-app.include_router(officer_router)
-app.include_router(officer_workflow_router)
-app.include_router(complaint_history_router)
-app.include_router(notification_router)
-app.include_router(analytics_router)
-'''def custom_openapi():
-    if app.openapi_schema:
-        return app.openapi_schema
+API_PREFIX = "/api/v1"
 
-    openapi_schema = get_openapi(
-        title=app.title,
-        version=app.version,
-        description="AI-powered Civic Issue Reporting System",
-        routes=app.routes,
-    )
-
-    openapi_schema["components"]["securitySchemes"] = {
-        "BearerAuth": {
-            "type": "http",
-            "scheme": "bearer",
-            "bearerFormat": "JWT",
-        }
-    }
-
-    for path in openapi_schema["paths"].values():
-        for operation in path.values():
-            operation["security"] = [
-                {
-                    "BearerAuth": []
-                }
-            ]
-    
-    app.openapi_schema = openapi_schema
-    return app.openapi_schema
-
-
-app.openapi = custom_openapi'''
+app.include_router(auth_router, prefix=API_PREFIX)
+app.include_router(complaint_router, prefix=API_PREFIX)
+app.include_router(complaint_image_router, prefix=API_PREFIX)
+app.include_router(dashboard_router, prefix=API_PREFIX)
+app.include_router(assignment_router, prefix=API_PREFIX)
+app.include_router(department_router, prefix=API_PREFIX)
+app.include_router(officer_router, prefix=API_PREFIX)
+app.include_router(officer_workflow_router, prefix=API_PREFIX)
+app.include_router(complaint_history_router, prefix=API_PREFIX)
+app.include_router(notification_router, prefix=API_PREFIX)
+app.include_router(analytics_router, prefix=API_PREFIX)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
