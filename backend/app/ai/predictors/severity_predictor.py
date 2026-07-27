@@ -10,28 +10,28 @@ class SeverityPredictor:
 
         severity_map = {
             "Pothole": [
-                "Medium",
-                "High",
-                "Critical",
+                "MEDIUM",
+                "HIGH",
+                "CRITICAL",
             ],
             "Garbage": [
-                "Low",
-                "Medium",
+                "LOW",
+                "MEDIUM",
             ],
             "Street Light": [
-                "Medium",
-                "High",
+                "MEDIUM",
+                "HIGH",
             ],
             "Water Leakage": [
-                "Medium",
-                "High",
-                "Critical",
+                "MEDIUM",
+                "HIGH",
+                "CRITICAL",
             ],
         }
 
         return random.choice(
             severity_map.get(
                 issue_type,
-                ["Medium"],
+                ["MEDIUM"],
             )
         )

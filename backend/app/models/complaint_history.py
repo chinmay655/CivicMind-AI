@@ -11,6 +11,7 @@ class ComplaintHistory(BaseModel):
         ForeignKey("complaints.id"),
         nullable=False,
     )
+    
 
     performed_by: Mapped[int] = mapped_column(
         ForeignKey("users.id"),

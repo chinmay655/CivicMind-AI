@@ -8,6 +8,7 @@ from app.models.complaint import ComplaintPriority, ComplaintStatus
 
 class ComplaintCreate(BaseModel):
     title: str
+    category: str
     description: str
     latitude: float
     longitude: float
@@ -17,6 +18,7 @@ class ComplaintCreate(BaseModel):
 
 class ComplaintUpdate(BaseModel):
     title: Optional[str] = None
+    category: Optional[str] = None
     description: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
@@ -30,12 +32,13 @@ class ComplaintResponse(BaseModel):
 
     id: int
     title: str
+    category: str
     description: str
     status: ComplaintStatus
     priority: ComplaintPriority
     latitude: float
     longitude: float
-    address: str
+    address: str = "Address not available"
     citizen_id: int
 
     # AI Analysis Fields

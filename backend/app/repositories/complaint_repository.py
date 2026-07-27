@@ -90,7 +90,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.complaint import Complaint
 from app.schemas.complaint import ComplaintCreate, ComplaintUpdate
+from datetime import datetime
 
+from app.models.complaint import ComplaintStatus
 
 class ComplaintRepository:
     def __init__(self, db: AsyncSession):
@@ -103,6 +105,7 @@ class ComplaintRepository:
     ) -> Complaint:
         db_complaint = Complaint(
             title=complaint.title,
+            category=complaint.category,
             description=complaint.description,
             priority=complaint.priority,
             latitude=complaint.latitude,
@@ -172,3 +175,18 @@ class ComplaintRepository:
         # No commit here.
         # ComplaintImageService will commit everything together.
         return complaint  
+
+
+    async def assign_officer(
+        self,
+        complaint: Complaint,
+        officer_id: int,
+    ):
+        complaint.assigned_officer_id = officer_id
+        complaint.status = ComplaintStatus.ASSIGNED
+        complaint.assigned_at = datetime.utcnow()
+
+        await self.db.commit()
+        await self.db.refresh(complaint)
+
+        return complaint

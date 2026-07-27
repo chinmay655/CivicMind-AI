@@ -26,7 +26,7 @@ class ComplaintService:
     async def get_all_complaints(self) -> list[Complaint]:
         return await self.repository.get_all()
 
-    async def update_complaint(
+    '''async def update_complaint(
         self,
         db_complaint: Complaint,
         complaint_update: ComplaintUpdate,
@@ -34,7 +34,7 @@ class ComplaintService:
         return await self.repository.update(
             db_complaint=db_complaint,
             complaint_update=complaint_update,
-        )
+        )'''
 
     async def delete_complaint(
         self,
@@ -68,4 +68,61 @@ class ComplaintService:
         return await self.repository.update_ai_analysis(
             complaint,
             analysis,
+        )
+
+    async def assign_officer(
+        self,
+        complaint_id: int,
+        officer_id: int,
+    ):
+        complaint = await self.repository.get_by_id(
+            complaint_id
+        )
+
+        if complaint is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Complaint not found",
+            )
+
+        return await self.repository.assign_officer(
+            complaint,
+            officer_id,
+        )
+
+    async def assign_officer(
+        self,
+        complaint_id: int,
+        officer_id: int,
+        user_repository,
+    ):
+        complaint = await self.repository.get_by_id(
+            complaint_id
+        )
+
+        if complaint is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Complaint not found",
+            )
+
+        officer = await user_repository.get_by_id(
+            officer_id
+        )
+
+        if officer is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Officer not found",
+            )
+
+        if officer.role.name != "Officer":
+            raise HTTPException(
+                status_code=400,
+                detail="Selected user is not an officer",
+            )
+
+        return await self.repository.assign_officer(
+            complaint,
+            officer_id,
         )

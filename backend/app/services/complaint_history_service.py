@@ -22,7 +22,7 @@ class ComplaintHistoryService:
         remarks: str | None = None,
     ) -> ComplaintHistory:
 
-        history = ComplaintHistory(
+        return await self.repository.create(
             complaint_id=complaint_id,
             performed_by=performed_by,
             action=action,
@@ -31,12 +31,10 @@ class ComplaintHistoryService:
             remarks=remarks,
         )
 
-        return await self.repository.create(history)
-
     async def get_timeline(
         self,
         complaint_id: int,
     ):
-        return await self.repository.get_by_complaint_id(
+        return await self.repository.get_by_complaint(
             complaint_id
         )

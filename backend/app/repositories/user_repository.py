@@ -32,7 +32,14 @@ class UserRepository:
             print(e)
             print("=" * 60)
             raise
-        
+
+    async def get_by_id(self, user_id: int) -> User | None:
+        result = await self.db.execute(
+            select(User)
+                .options(selectinload(User.role))
+                .where(User.id == user_id)
+        )
+        return result.scalar_one_or_none()
     '''async def create(self, user: User) -> User:
         self.db.add(user)
         await self.db.commit()

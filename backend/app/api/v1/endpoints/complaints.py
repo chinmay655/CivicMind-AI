@@ -13,6 +13,10 @@ from app.schemas.complaint import (
 from app.services.complaint_service import ComplaintService
 from app.repositories.complaint_history_repository import ComplaintHistoryRepository
 from app.services.complaint_history_service import ComplaintHistoryService
+from app.api.dependencies import require_admin
+from app.schemas.assignment import ComplaintAssignment
+from app.repositories.user_repository import UserRepository
+from app.api.dependencies import require_admin
 router = APIRouter(
     prefix="/complaints",
     tags=["Complaints"],
@@ -109,7 +113,7 @@ async def get_complaint(
 @router.put("/{complaint_id}", response_model=ComplaintResponse)
 async def update_complaint(
     complaint_id: int,
-    complaint_update: ComplaintUpdate,
+    complaaint_update: ComplaintUpdate,
     db: AsyncSession = Depends(get_db),
 ):
     repository = ComplaintRepository(db)
@@ -119,3 +123,52 @@ async def update_complaint(
         complaint_id,
         complaint_update,
     )
+
+
+@router.get("/admin-test")
+async def admin_test(
+    current_user: User = Depends(require_admin),
+):
+    return {
+        "message": f"Welcome Admin {current_user.full_name}"
+    }
+
+@router.patch(
+    "/{complaint_id}/assign",
+    response_model=ComplaintResponse,
+)
+async def assign_complaint(
+    complaint_id: int,
+    assignment: ComplaintAssignment,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_admin),
+):
+
+    complaint_repository = ComplaintRepository(db)
+    complaint_service = ComplaintService(
+        complaint_repository
+    )
+
+    user_repository = UserRepository(db)
+
+    complaint = await complaint_service.assign_officer(
+        complaint_id=complaint_id,
+        officer_id=assignment.officer_id,
+        user_repository=user_repository,
+    )
+
+    history_repository = ComplaintHistoryRepository(db)
+    history_service = ComplaintHistoryService(
+        history_repository
+    )
+
+    await history_service.record_history(
+        complaint_id=complaint.id,
+        performed_by=current_user.id,
+        action="Officer Assigned",
+        old_status="Pending",
+        new_status="Assigned",
+        remarks=f"Assigned to Officer ID {assignment.officer_id}",
+    )
+
+    return complaint

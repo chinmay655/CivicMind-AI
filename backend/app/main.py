@@ -18,6 +18,9 @@ from app.api.v1.endpoints.notifications import (
 from app.api.v1.endpoints.analytics import (
     router as analytics_router,
 )
+from app.api.v1.endpoints.complaint_reports import (
+    router as complaint_report_router,
+)
 app = FastAPI(
     title="CivicMind AI",
     version="1.0.0",
@@ -56,7 +59,8 @@ app.include_router(officer_workflow_router, prefix=API_PREFIX)
 app.include_router(complaint_history_router, prefix=API_PREFIX)
 app.include_router(notification_router, prefix=API_PREFIX)
 app.include_router(analytics_router, prefix=API_PREFIX)
-app.add_middleware(
+app.include_router(complaint_report_router, prefix=API_PREFIX)
+'''app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
@@ -64,4 +68,4 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
+)'''

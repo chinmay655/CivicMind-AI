@@ -31,6 +31,11 @@ class Complaint(BaseModel):
         nullable=False,
     )
 
+    category: Mapped[str] = mapped_column(
+    String(100),
+    nullable=False,
+    )
+    
     description: Mapped[str] = mapped_column(
         Text,
         nullable=False,
