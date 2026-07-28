@@ -781,7 +781,7 @@ copies of the Software, subject to the conditions defined in the LICENSE file.
 <br />
 <strong>Star the repository to support its development and help others discover the project.</strong>
 <br />
-<strong>Open an issue to propose an improvement.</strong>
+<strong>Open an issue to propose an improvement. </strong>
 <br />
 <strong>Contribute code, documentation, testing, design, or civic-domain expertise.</strong>
 <br />
