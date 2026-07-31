@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, ForeignKey, String, Text
+from sqlalchemy import String, Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base_model import BaseModel
@@ -13,12 +13,12 @@ class Notification(BaseModel):
     )
 
     title: Mapped[str] = mapped_column(
-        String(200),
+        String(150),
         nullable=False,
     )
 
     message: Mapped[str] = mapped_column(
-        Text,
+        String(500),
         nullable=False,
     )
 

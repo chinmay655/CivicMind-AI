@@ -2,24 +2,29 @@ import { useState } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 
-import ImageUploader from "../components/report/ImageUploader";
+import ReportHeader from "../components/report/ReportHeader";
 import ComplaintForm from "../components/report/ComplaintForm";
+import ImageUploader from "../components/report/ImageUploader";
 import LocationPicker from "../components/report/LocationPicker";
+import AIAnalysisCard from "../components/report/AIAnalysisCard";
+import SubmitSection from "../components/report/SubmitSection";
+
 import { ComplaintFormData } from "../types/complaint";
 import { complaintService } from "../services/complaintService";
+
 const ReportIssue = () => {
   const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] =
     useState<ComplaintFormData>({
       title: "",
       description: "",
       category: "",
-
       latitude: null,
       longitude: null,
-
       image: null,
     });
+
   const handleSubmit = async () => {
     if (
       !formData.title ||
@@ -80,37 +85,52 @@ const ReportIssue = () => {
       setLoading(false);
     }
   };
+
   return (
     <DashboardLayout>
-      <div className="mx-auto max-w-6xl space-y-8">
+      <div className="mx-auto max-w-7xl px-6 py-8 space-y-8">
 
-        <div>
-          <h1 className="text-4xl font-bold text-white">
-            Report Civic Issue
-          </h1>
+        <ReportHeader />
 
-          <p className="mt-2 text-slate-400">
-            Upload an image and report a civic problem.
-          </p>
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+          {/* Left Column */}
+
+          <div className="xl:col-span-2 space-y-6">
+
+            <ComplaintForm
+              formData={formData}
+              setFormData={setFormData}
+              onSubmit={handleSubmit}
+              loading={loading}
+            />
+
+            <LocationPicker
+              formData={formData}
+              setFormData={setFormData}
+            />
+
+          </div>
+
+          {/* Right Column */}
+
+          <div className="space-y-6">
+
+            <ImageUploader
+              formData={formData}
+              setFormData={setFormData}
+            />
+
+            <AIAnalysisCard />
+
+            <SubmitSection
+              loading={loading}
+              onSubmit={handleSubmit}
+            />
+
+          </div>
+
         </div>
-
-        <ImageUploader
-          formData={formData}
-          setFormData={setFormData}
-        />
-
-        <ComplaintForm
-          formData={formData}
-          setFormData={setFormData}
-          onSubmit={handleSubmit}
-          loading={loading}
-
-        />
-
-        <LocationPicker
-          formData={formData}
-          setFormData={setFormData}
-        />
 
       </div>
     </DashboardLayout>

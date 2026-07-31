@@ -1,12 +1,15 @@
 import {
-  AreaChart,
   Area,
+  AreaChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+
+import Card from "../ui/Card";
+import SectionHeader from "../ui/SectionHeader";
 
 const data = [
   { day: "Mon", reports: 12 },
@@ -20,40 +23,103 @@ const data = [
 
 const AnalyticsChart = () => {
   return (
-    <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-      <h2 className="mb-6 text-2xl font-semibold text-white">
-        Weekly Reports
-      </h2>
+    <Card>
 
-      <div style={{ width: "100%", height: 320 }}>
-        <ResponsiveContainer>
-          <AreaChart data={data}>
+      <SectionHeader
+        title="Weekly Reports"
+        subtitle="Reports submitted over the last 7 days"
+        action={
+          <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
+            ↑ 18% this week
+          </span>
+        }
+      />
+
+      <div className="h-80">
+
+        <ResponsiveContainer width="100%" height="100%">
+
+          <AreaChart
+            data={data}
+            margin={{
+              top: 10,
+              right: 10,
+              left: -20,
+              bottom: 0,
+            }}
+          >
+
             <defs>
-              <linearGradient id="reports" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.05} />
+
+              <linearGradient
+                id="reportsGradient"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="5%"
+                  stopColor="#2563EB"
+                  stopOpacity={0.35}
+                />
+
+                <stop
+                  offset="95%"
+                  stopColor="#2563EB"
+                  stopOpacity={0}
+                />
               </linearGradient>
+
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+            <CartesianGrid
+              stroke="#E2E8F0"
+              strokeDasharray="4 4"
+              vertical={false}
+            />
 
-            <XAxis dataKey="day" stroke="#94A3B8" />
+            <XAxis
+              dataKey="day"
+              tickLine={false}
+              axisLine={false}
+              tick={{ fill: "#64748B", fontSize: 13 }}
+            />
 
-            <YAxis stroke="#94A3B8" />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tick={{ fill: "#64748B", fontSize: 13 }}
+            />
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                borderRadius: "16px",
+                border: "1px solid #E2E8F0",
+                background: "#FFFFFF",
+                boxShadow:
+                  "0 10px 30px rgba(15,23,42,0.08)",
+              }}
+            />
 
             <Area
               type="monotone"
               dataKey="reports"
-              stroke="#3B82F6"
-              fillOpacity={1}
-              fill="url(#reports)"
+              stroke="#2563EB"
+              strokeWidth={3}
+              fill="url(#reportsGradient)"
+              activeDot={{
+                r: 6,
+              }}
             />
+
           </AreaChart>
+
         </ResponsiveContainer>
+
       </div>
-    </section>
+
+    </Card>
   );
 };
 

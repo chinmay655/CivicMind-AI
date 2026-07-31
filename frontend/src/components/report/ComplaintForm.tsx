@@ -17,17 +17,47 @@ const ComplaintForm = ({
   loading,
 }: ComplaintFormProps) => {
   return (
-    <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-      <div className="mb-6 flex items-center gap-3">
-        <ClipboardList
-          size={28}
-          className="text-blue-400"
-        />
+    <section className="relative overflow-hidden rounded-3xl border border-slate-700/60 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-8 shadow-2xl">
 
-        <h2 className="text-2xl font-semibold text-white">
-          Complaint Details
-        </h2>
-      </div>
+      {/* Background Glow */}
+      <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl"></div>
+
+      <div className="absolute -left-16 -bottom-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl"></div>
+
+      <div className="relative">
+
+      <div className="mb-8 flex items-start justify-between">
+
+  <div className="flex items-center gap-4">
+
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/10 ring-1 ring-blue-500/20">
+
+      <ClipboardList
+        size={28}
+        className="text-blue-400"
+      />
+
+    </div>
+
+    <div>
+
+      <h2 className="text-2xl font-bold text-white">
+        Complaint Details
+      </h2>
+
+      <p className="mt-1 text-sm text-slate-400">
+        Provide complete information for faster resolution.
+      </p>
+
+    </div>
+
+  </div>
+
+  <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400">
+    Required
+  </span>
+
+</div>
 
       <div className="grid gap-6">
         {/* Title */}
@@ -96,15 +126,8 @@ const ComplaintForm = ({
           />
         </div>
 
-        <button
-          type="button"
-          onClick={onSubmit}
-          disabled={loading}
-          className="rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {loading ? "Submitting..." : "Submit Complaint"}
-        </button>
       </div>
+       </div>
     </section>
   );
 };

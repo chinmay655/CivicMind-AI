@@ -2,11 +2,9 @@ import {
   LayoutDashboard,
   MapPinned,
   ClipboardList,
-  Map,
   Bell,
   User,
-  Settings,
-  LogOut,
+  ShieldCheck,
 } from "lucide-react";
 
 export const navigation = [
@@ -22,13 +20,8 @@ export const navigation = [
   },
   {
     title: "My Complaints",
-    path: "/complaints",
+    path: "/my-complaints",
     icon: ClipboardList,
-  },
-  {
-    title: "City Map",
-    path: "/map",
-    icon: Map,
   },
   {
     title: "Notifications",
@@ -40,14 +33,13 @@ export const navigation = [
     path: "/profile",
     icon: User,
   },
+
+  // -------------------------
+  // Admin Section
+  // -------------------------
   {
-    title: "Settings",
-    path: "/settings",
-    icon: Settings,
-  },
-  {
-    title: "Logout",
-    path: "/logout",
-    icon: LogOut,
+    title: "Admin Dashboard",
+    path: "/admin/dashboard",
+    icon: ShieldCheck,
   },
 ];

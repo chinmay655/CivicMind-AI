@@ -40,6 +40,14 @@ class UserRepository:
                 .where(User.id == user_id)
         )
         return result.scalar_one_or_none()
+
+    async def is_officer(self, user_id: int) -> bool:
+        user = await self.get_by_id(user_id)
+
+        if user is None:
+            return False
+
+        return user.role.name == "Officer"
     '''async def create(self, user: User) -> User:
         self.db.add(user)
         await self.db.commit()

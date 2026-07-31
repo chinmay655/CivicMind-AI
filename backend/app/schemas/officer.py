@@ -16,3 +16,20 @@ class OfficerResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class OfficerDashboardResponse(BaseModel):
+    total: int
+    assigned: int
+    accepted: int
+    in_progress: int
+    resolved_today: int
+
+class OfficerDashboardResponse(BaseModel):
+    total_assigned: int
+    pending: int
+    accepted: int
+    in_progress: int
+    resolved: int
+
+    class Config:
+        from_attributes = True

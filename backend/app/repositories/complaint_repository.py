@@ -94,6 +94,8 @@ from datetime import datetime
 
 from app.models.complaint import ComplaintStatus
 
+from sqlalchemy import select
+
 class ComplaintRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
@@ -190,3 +192,85 @@ class ComplaintRepository:
         await self.db.refresh(complaint)
 
         return complaint
+
+    async def accept_assignment(
+        self,
+        complaint: Complaint,
+    ) -> Complaint:
+
+        complaint.status = ComplaintStatus.ACCEPTED
+
+        await self.db.commit()
+        await self.db.refresh(complaint)
+
+        return complaint
+
+    async def start_work(
+        self,
+        complaint: Complaint,
+    ) -> Complaint:
+
+        complaint.status = ComplaintStatus.IN_PROGRESS
+        complaint.started_at = datetime.utcnow()
+
+        await self.db.commit()
+        await self.db.refresh(complaint)
+
+        return complaint
+    async def resolve_complaint(
+        self,
+        complaint: Complaint,
+    ) -> Complaint:
+
+        complaint.status = ComplaintStatus.RESOLVED
+        complaint.resolved_at = datetime.utcnow()
+
+        await self.db.commit()
+        await self.db.refresh(complaint)
+
+        return complaint
+
+    async def get_by_officer(
+        self,
+        officer_id: int,
+    ):
+        result = await self.db.execute(
+            select(Complaint)
+            .where(
+                Complaint.assigned_officer_id == officer_id
+            )
+            .order_by(Complaint.created_at.desc())
+        )
+
+        return result.scalars().all()
+
+    async def get_officer_dashboard(
+        self,
+        officer_id: int,
+    ):
+        complaints = await self.get_by_officer(officer_id)
+
+        return {
+            "total_assigned": len(complaints),
+            "accepted": sum(c.status == ComplaintStatus.ACCEPTED for c in complaints),
+            "in_progress": sum(c.status == ComplaintStatus.IN_PROGRESS for c in complaints),
+            "resolved": sum(c.status == ComplaintStatus.RESOLVED for c in complaints),
+            "pending_today": sum(
+                c.created_at.date() == date.today()
+                for c in complaints
+                if c.status == ComplaintStatus.ASSIGNED
+            ),
+        }
+
+    async def get_dashboard_statistics(self):
+        complaints = await self.get_all()
+
+        return {
+            "total_complaints": len(complaints),
+            "pending": sum(c.status == ComplaintStatus.PENDING for c in complaints),
+            "assigned": sum(c.status == ComplaintStatus.ASSIGNED for c in complaints),
+            "accepted": sum(c.status == ComplaintStatus.ACCEPTED for c in complaints),
+            "in_progress": sum(c.status == ComplaintStatus.IN_PROGRESS for c in complaints),
+            "resolved": sum(c.status == ComplaintStatus.RESOLVED for c in complaints),
+            "rejected": sum(c.status == ComplaintStatus.REJECTED for c in complaints),
+        }   

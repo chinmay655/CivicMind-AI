@@ -70,7 +70,7 @@ class ComplaintService:
             analysis,
         )
 
-    async def assign_officer(
+    '''async def assign_officer(
         self,
         complaint_id: int,
         officer_id: int,
@@ -88,7 +88,7 @@ class ComplaintService:
         return await self.repository.assign_officer(
             complaint,
             officer_id,
-        )
+        )'''
 
     async def assign_officer(
         self,
@@ -126,3 +126,18 @@ class ComplaintService:
             complaint,
             officer_id,
         )
+    async def get_officer_complaints(
+        self,
+        officer_id: int,
+    ):
+        return await self.repository.get_by_officer(
+            officer_id
+        )
+
+    async def get_officer_dashboard(
+        self,
+        officer_id: int,
+    ):
+        return await self.repository.get_officer_dashboard(
+            officer_id
+    )

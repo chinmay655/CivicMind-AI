@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import require_admin
 from app.db.session import get_db
+from app.models.user import User
 from app.repositories.dashboard_repository import DashboardRepository
-from app.schemas.dashboard import DashboardStatsResponse
-from app.services.dashboard_service import DashboardService
 from app.schemas.dashboard import (
     DashboardStatsResponse,
     RecentComplaintResponse,
@@ -15,6 +15,7 @@ from app.schemas.dashboard import (
     ComplaintMapResponse,
     DashboardPerformanceResponse,
 )
+from app.services.dashboard_service import DashboardService
 
 router = APIRouter(
     prefix="/dashboard",
@@ -28,11 +29,13 @@ router = APIRouter(
 )
 async def get_dashboard_stats(
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_admin),
 ):
     repository = DashboardRepository(db)
     service = DashboardService(repository)
 
     return await service.get_dashboard_stats()
+
 
 @router.get(
     "/recent",
@@ -45,6 +48,8 @@ async def recent_complaints(
     service = DashboardService(repository)
 
     return await service.get_recent_complaints()
+
+
 @router.get(
     "/monthly",
     response_model=list[MonthlyComplaintResponse],
@@ -56,6 +61,7 @@ async def monthly_complaints(
     service = DashboardService(repository)
 
     return await service.get_monthly_complaints()
+
 
 @router.get(
     "/hotspots",
@@ -69,6 +75,7 @@ async def get_hotspots(
 
     return await service.get_hotspots()
 
+
 @router.get(
     "/priorities",
     response_model=list[PriorityDistributionResponse],
@@ -80,6 +87,7 @@ async def get_priority_distribution(
     service = DashboardService(repository)
 
     return await service.get_priority_distribution()
+
 
 @router.get(
     "/status",
@@ -93,6 +101,7 @@ async def get_status_distribution(
 
     return await service.get_status_distribution()
 
+
 @router.get(
     "/map",
     response_model=list[ComplaintMapResponse],
@@ -104,6 +113,7 @@ async def get_map_complaints(
     service = DashboardService(repository)
 
     return await service.get_map_complaints()
+
 
 @router.get(
     "/performance",

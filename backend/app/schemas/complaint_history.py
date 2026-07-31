@@ -1,4 +1,4 @@
-from datetime import datetime
+'''from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
@@ -13,4 +13,21 @@ class ComplaintHistoryResponse(BaseModel):
     remarks: str | None
     created_at: datetime
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)'''
+
+from datetime import datetime
+from pydantic import BaseModel
+
+
+class ComplaintHistoryResponse(BaseModel):
+    id: int
+    complaint_id: int
+    action: str
+    old_status: str | None
+    new_status: str | None
+    remarks: str | None
+    performed_by: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

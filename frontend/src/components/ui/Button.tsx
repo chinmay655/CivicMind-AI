@@ -1,33 +1,44 @@
-type ButtonProps = {
+interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary";
   onClick?: () => void;
-};
+  type?: "button" | "submit";
+  disabled?: boolean;
+  className?: string;
+}
 
-function Button({
+const Button = ({
   children,
-  variant = "primary",
   onClick,
-}: ButtonProps) {
-  const base =
-    "rounded-xl px-6 py-3 font-semibold transition-all duration-300";
-
-  const styles = {
-    primary:
-      "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg",
-
-    secondary:
-      "border border-gray-300 bg-white text-gray-700 hover:bg-gray-100",
-  };
-
+  type = "button",
+  disabled = false,
+  className = "",
+}: ButtonProps) => {
   return (
     <button
+      type={type}
       onClick={onClick}
-      className={`${base} ${styles[variant]}`}
+      disabled={disabled}
+      className={`
+        rounded-2xl
+        bg-gradient-to-r
+        from-blue-600
+        to-cyan-500
+        px-6
+        py-3
+        font-semibold
+        text-white
+        transition-all
+        duration-300
+        hover:scale-[1.02]
+        hover:shadow-xl
+        disabled:opacity-50
+        disabled:cursor-not-allowed
+        ${className}
+      `}
     >
       {children}
     </button>
   );
-}
+};
 
 export default Button;

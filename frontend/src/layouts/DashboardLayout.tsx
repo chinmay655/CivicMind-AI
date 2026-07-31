@@ -10,17 +10,25 @@ const DashboardLayout = ({
   children,
 }: DashboardLayoutProps) => {
   return (
-    <div className="flex min-h-screen bg-slate-950">
+    <div className="flex min-h-screen bg-slate-50">
       {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col">
+      {/* Main Area */}
+      <div className="flex min-w-0 flex-1 flex-col">
+
         <Topbar />
 
-        <main className="flex-1 overflow-y-auto p-8">
-          {children}
+        <main className="flex-1 overflow-y-auto">
+
+          <div className="mx-auto w-full max-w-7xl px-8 py-8">
+
+            {children}
+
+          </div>
+
         </main>
+
       </div>
     </div>
   );

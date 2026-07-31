@@ -9,6 +9,7 @@ from app.api.v1.endpoints.assignment import router as assignment_router
 from app.api.v1.endpoints.departments import router as department_router
 from app.api.v1.endpoints.officers import router as officer_router
 from app.api.v1.endpoints.complaint_history import router as complaint_history_router
+from app.api.v1.endpoints.citizens import router as citizen_router
 from app.api.v1.endpoints.officer_workflow import (
     router as officer_workflow_router,
 )
@@ -60,6 +61,7 @@ app.include_router(complaint_history_router, prefix=API_PREFIX)
 app.include_router(notification_router, prefix=API_PREFIX)
 app.include_router(analytics_router, prefix=API_PREFIX)
 app.include_router(complaint_report_router, prefix=API_PREFIX)
+app.include_router(citizen_router, prefix=API_PREFIX)
 '''app.add_middleware(
     CORSMiddleware,
     allow_origins=[

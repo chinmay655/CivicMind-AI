@@ -5,7 +5,7 @@ from app.models.user import User
 from app.repositories.department_repository import DepartmentRepository
 from app.repositories.officer_repository import OfficerRepository
 from app.schemas.officer import OfficerCreate, OfficerResponse
-
+from app.schemas.officer import OfficerDashboardResponse
 
 class OfficerService:
 
@@ -83,3 +83,35 @@ class OfficerService:
             )
 
         return OfficerResponse.model_validate(officer)
+
+    async def get_dashboard_stats(
+        self,
+        officer_id: int,
+    ):
+        total = await self.repository.get_total_assigned(
+            officer_id
+        )
+
+        pending = await self.repository.get_pending_complaints(
+            officer_id
+        )
+
+        accepted = await self.repository.get_accepted_complaints(
+            officer_id
+        )
+
+        in_progress = await self.repository.get_in_progress_complaints(
+            officer_id
+        )
+
+        resolved = await self.repository.get_resolved_complaints(
+            officer_id
+        )
+
+        return OfficerDashboardResponse(
+            total_assigned=total,
+            pending=pending,
+            accepted=accepted,
+            in_progress=in_progress,
+            resolved=resolved,
+        )

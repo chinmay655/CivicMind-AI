@@ -33,32 +33,6 @@ class AuthService:
 
         return await self.repository.create(user)
 
-    '''async def login(self, email: str, password: str):
-
-        user = await self.repository.get_by_email(email)
-
-        if user is None:
-            raise ValueError("Invalid email or password")
-
-        if not verify_password(
-            password,
-            user.password_hash,
-        ):
-            raise ValueError("Invalid email or password")
-
-        token = create_access_token(
-            {
-                "sub": user.email,
-                "user_id": user.id,
-            }
-        )
-
-        return {
-            "access_token": token,
-            "token_type": "bearer",
-            "user": user,
-        }'''
-
     async def login(self, email: str, password: str):
 
         user = await self.repository.get_by_email(email)
