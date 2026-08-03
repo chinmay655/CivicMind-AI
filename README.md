@@ -141,7 +141,7 @@ They may struggle to determine:
 
 ### Weak citizen-authority communication
 Many reporting systems provide only one-directional communication.
-A report is submitted, but there may be no clear feedback loop for progress updates, requests for additional details, or explanations of the final resolution.
+A report is submitted, but there may be no clear feedback loop for progress updates, requests for additional details, or explanations of the final resolution
 The result is not only a workflow problem.
 It is a trust problem.
 
